@@ -6,6 +6,11 @@ const port = 3000;
 
 app.use(express.json());
 
+app.get('/', async (req, res) => {
+  res.json({meesage: "goto /get-recalls"})
+});
+
+
 app.post('/get-recalls', async (req, res) => {
   const pathToJson = req.body.pathToJson;
   try {
