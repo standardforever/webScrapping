@@ -20,7 +20,7 @@ app.post('/get-recalls', async (req, res) => {
     res.json(jsonResults);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'An error occurred' });
+    res.status(500).json({ error: error });
   }
 });
 
