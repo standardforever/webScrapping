@@ -1,5 +1,7 @@
 const express = require('express');
 const puppeteer = require('puppeteer');
+require("dotenv").config();
+
 
 const app = express();
 const port = 3000;
@@ -26,8 +28,23 @@ async function getRecalls(pathToJson) {
   const url = 'https://cirr.cecs.anu.edu.au/test_process/'; // Replace with your website's URL
 
   // Configure Puppeteer
-  const browser = await puppeteer.launch({ headless: 'new' });
+  const browser = await puppeteer.launch({ 
+    headless: 'new',
+    args: [
+      "--disable-setuid-sandbox",
+      "--no-sandbox",
+      "--single-process",
+      "--no-zygote"
+    ],
+    executablePath:
+      process.env.NODE_ENV === "production" 
+        ? process.env.PUPPETEER_EXECUTABLE_PATH
+        : puppeteer.executablePath(),
+  })
+  // executablePath: process.env.PUPPETEER_EXECUTABLE_PATH});
+  // headless: 'new' 
   const page = await browser.newPage();
+
 
   // Navigate to the URL
   await page.goto(url, { waitUntil: 'networkidle0' });
